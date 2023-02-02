@@ -6,7 +6,7 @@ from organizeEvent.models import ToDo, Organisation
 
 class ToDoAdmin(admin.ModelAdmin):
 
-    list_display = ('description', 'isChecked')
+    list_display = ('description', 'statut', 'informations', 'orgaId', 'userAssigned')
 
 class OrganisationAdmin(admin.ModelAdmin):
 
