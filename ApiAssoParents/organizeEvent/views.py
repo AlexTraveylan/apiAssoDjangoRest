@@ -1,5 +1,7 @@
+from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
+from rest_framework import status
  
 from organizeEvent.models import Organisation, ToDo
 from organizeEvent.serializers import ToDoSerializer, OrganisationSerializer
@@ -21,6 +23,20 @@ class OrganisationViewset(ModelViewSet):
     queryset = Organisation.objects.all()
     serializer_class = OrganisationSerializer
 
+    def list(self, request, *arg, **kwargs):
+        queryset = self.queryset
+        password = request.query_params.get('password', None)
+        if password:
+            queryset = queryset.filter(password = password)
+            if len(queryset) == 0:
+                return Response(status=status.HTTP_404_NOT_FOUND)
+        serializer = self.serializer_class(queryset, many = True)
+        return Response(serializer.data)
+    
+
+    def update(self, request, *args, **kwargs):
+        return super().update(request, *args, **kwargs)
+
     def perform_create(self, serializer):
         instance = serializer.save()
         toDos = []
@@ -35,4 +51,3 @@ class OrganisationViewset(ModelViewSet):
         toDos.append(ToDo.objects.create(**{'description':'Preparation de la nourriture', 'informations' : 'A vos fourneaux !', 'orgaId': instance.id}) )
         instance.toDo.set(toDos)
         instance.save()
-

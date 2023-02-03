@@ -1,5 +1,7 @@
 from django.db import models
 
+from organizeEvent.validators import *
+
 # Create your models here.
 
 class ToDo(models.Model):
@@ -8,11 +10,12 @@ class ToDo(models.Model):
     statut = models.IntegerField(default = 0)
     informations = models.TextField(default="Informations par defaut")
     orgaId = models.IntegerField(blank = False)
-    userAssigned = models.TextField(null= True, blank=True)
+    userAssigned = models.TextField(null= True, blank=True, validators=[validate_username])
     dateTimeAssigned = models.DateTimeField(null = True, blank = True)
 
 class Organisation(models.Model):
 
+    password = models.TextField(unique = True, validators=[validate_password])
     typeEvent = models.TextField(blank = True)
     description = models.TextField(blank = True)
     lieu = models.TextField(blank = True)
