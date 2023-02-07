@@ -2,10 +2,32 @@ from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 from rest_framework import status
+from ApiAssoParents.settings import TRESORIER_PASSWORD
  
-from organizeEvent.models import Organisation, ToDo
-from organizeEvent.serializers import ToDoSerializer, OrganisationSerializer
- 
+from organizeEvent.models import Organisation, ToDo, Comptabilite
+from organizeEvent.serializers import ComptabiliteSerializer, ToDoSerializer, OrganisationSerializer
+
+
+class ComptabiliteViewSet(ModelViewSet):
+    queryset = Comptabilite.objects.all()
+    serializer_class = ComptabiliteSerializer
+
+    def get_success_headers(self, data):
+        return super().get_success_headers(data)
+    
+    def perform_create(self, serializer):
+        return super().perform_create(serializer)
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        if TRESORIER_PASSWORD == request.data['requestToken']:
+            self.perform_create(serializer)
+            headers = self.get_success_headers(serializer.data)
+            return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+        else:
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
 class ToDoViewSet(ModelViewSet):
 
     queryset = ToDo.objects.all()

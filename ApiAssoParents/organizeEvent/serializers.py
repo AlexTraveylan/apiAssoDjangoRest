@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from organizeEvent.models import Organisation, ToDo
+from organizeEvent.models import Organisation, ToDo, Comptabilite
 
 class ToDoSerializer(ModelSerializer):
 
@@ -13,4 +13,10 @@ class OrganisationSerializer(ModelSerializer):
 
     class Meta:
         model = Organisation
+        fields = '__all__'
+
+class ComptabiliteSerializer(ModelSerializer):
+
+    class Meta:
+        model = Comptabilite
         fields = '__all__'
