@@ -19,4 +19,4 @@ class ComptabiliteSerializer(ModelSerializer):
 
     class Meta:
         model = Comptabilite
-        fields = '__all__'
+        fields = ['date', 'source', 'label', 'amount', 'paiementType', 'isPositive', 'note']
