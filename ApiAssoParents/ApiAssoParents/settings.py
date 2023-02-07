@@ -61,7 +61,7 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'ApiAssoParents.urls'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:4200',
+    'http://localhost:4200','https://parents-nelson-mandela.fr'
 ]
 
 TEMPLATES = [
