@@ -29,7 +29,7 @@ class Comptabilite(models.Model):
     date = models.DateField(null= False, blank = False)
     source = models.TextField(blank = True)
     label = models.TextField(blank = True)
-    amount = models.IntegerField(blank = False, null = False)
+    amount = models.DecimalField(blank = False, null = False, max_digits=6, decimal_places=2)
     paiementType = models.TextField(blank = False)
     isPositive = models.BooleanField(blank = False)
     note = models.TextField(blank = True, null = True)
